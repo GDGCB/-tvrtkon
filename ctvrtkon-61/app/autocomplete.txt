@@ -1,0 +1,9 @@
+  let keyup$ = Observable.fromEvent(input, 'keyup')
+      .map((e: any) => e.target.value)
+      .filter((text) => text.length > 2)
+      .debounceTime(400)
+      .distinctUntilChanged();
+
+    let search$ = keyup$
+      .switchMap(x => HTTP.search(x))
+      .map(x => mapStringsToLis(x));

@@ -1,0 +1,17 @@
+    let stop$ = Observable.fromEvent(document.getElementById("stacilo"), 'click')
+          .map((x:any)=>  x.target.checked);
+
+          stop$.subscribe(x=> console.log(x));
+
+
+    const randomWords = "To ticho před bouří, co zebe víc než vanilkové nebe, tři plus milión sto básní, že napíšu zas A můžeš se dívat a vstupné si nech jen když mé tělo orosí dech.".split(' ');
+    const numWords = randomWords.length
+    const singer$ = Observable
+      .interval(500)
+      .scan(x => x + 1)
+      .map(count => count % numWords)
+      .map(index => randomWords[index]);
+
+      let final$ = stop$.switchMap(x=> x ? Observable.never() : singer$)
+      .subscribe(x=> console.log(x));
+ 
